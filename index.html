@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swathi Krishna P — Content Marketer & Strategist</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #0a0a0a; color: #e8e8e8; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --dark-1: #0a0a0a;
+    --dark-2: #111111;
+    --dark-3: #1a1a1a;
+    --dark-4: #222222;
+    --border: rgba(255,255,255,0.08);
+    --text-muted: #777;
+    --text-secondary: #aaa;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,10,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px;
+  }
+  .nav-logo { font-size: 19px; font-weight: 700; letter-spacing: 0.03em; color: #fff; text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 2.25rem; }
+  .nav-links a {
+    font-size: 12px; color: var(--text-muted); text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #fff; }
+  .contact-btn {
+    background: var(--gold); color: #000 !important;
+    padding: 9px 20px; border-radius: 4px;
+    font-weight: 700; font-size: 11px !important; font-family: inherit;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border: none;
+    transition: background 0.2s;
+  }
+  .contact-btn:hover { background: var(--gold-light); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.8);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--dark-3); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 2rem 2.25rem; min-width: 330px;
+    position: relative;
+  }
+  .modal h3 { font-size: 15px; font-weight: 600; margin-bottom: 1.5rem; color: #fff; letter-spacing: 0.03em; }
+  .modal-row { display: flex; align-items: center; gap: 14px; margin-bottom: 1.1rem; }
+  .modal-icon {
+    width: 40px; height: 40px; border-radius: 9px;
+    background: var(--dark-4); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0;
+  }
+  .modal-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .modal-value { font-size: 14px; color: #fff; margin-top: 3px; }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1.1rem;
+    background: none; border: none; color: var(--text-muted);
+    font-size: 22px; cursor: pointer; line-height: 1; transition: color 0.2s;
+  }
+  .modal-close:hover { color: #fff; }
+
+  /* WHATSAPP BUTTON */
+  .whatsapp-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; margin-top: 1.5rem;
+    background: #25D366; color: #fff;
+    border: none; border-radius: 8px;
+    padding: 12px 20px; font-size: 14px; font-weight: 600;
+    font-family: inherit; cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .whatsapp-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
+  .whatsapp-btn svg { flex-shrink: 0; }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,0.92);
+    align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .lightbox-overlay.open { display: flex; }
+  .lightbox-inner {
+    position: relative; max-width: 90vw; max-height: 90vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-inner img {
+    max-width: 90vw; max-height: 85vh;
+    border-radius: 10px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.8);
+    object-fit: contain;
+  }
+  .lightbox-close {
+    position: fixed; top: 1.25rem; right: 1.5rem;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 24px; cursor: pointer;
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; line-height: 1;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+  .port-img { cursor: zoom-in; }
+
+  /* HERO */
+  .hero {
+    max-width: 960px; margin: 0 auto;
+    padding: 5.5rem 2.5rem 4.5rem;
+    display: grid; grid-template-columns: 1fr 200px; gap: 3rem; align-items: center;
+  }
+  .hero-tag {
+    display: inline-block; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3); padding: 5px 13px; border-radius: 3px;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.05; color: #fff; margin-bottom: 1.1rem; letter-spacing: -0.02em; }
+  .hero h1 span { color: var(--gold); }
+  .hero-desc { font-size: 15px; line-height: 1.8; color: var(--text-secondary); max-width: 530px; }
+  .hero-stats { display: flex; gap: 2.5rem; margin-top: 2.25rem; }
+  .stat { border-left: 2px solid var(--gold); padding-left: 14px; }
+  .stat-num { font-size: 26px; font-weight: 700; color: #fff; }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.hero-photo {
+  width: 200px; 
+  height: 200px; 
+  border-radius: 12px;
+  background: var(--dark-3); 
+  border: 1px solid var(--border);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  
+  /* Crucial: prevents the image from square-cornering 
+     out of your rounded container */
+  overflow: hidden; 
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  
+  /* Crucial: maintains aspect ratio so your face 
+     isn't stretched or squashed */
+  object-fit: cover; 
+  
+  /* Optional: keeps the focus on the center of the photo */
+  object-position: center; 
+}
+
+/* You can now delete these old rules as they are no longer needed */
+/* .hero-photo svg { opacity: 0.2; } */ 
+
+  /* LAYOUT */
+  .divider { border: none; border-top: 1px solid var(--border); }
+  section { max-width: 960px; margin: 0 auto; padding: 4rem 2.5rem; }
+  .section-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .section-title { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 2.25rem; letter-spacing: -0.01em; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.25rem; }
+  .about-text { font-size: 15px; line-height: 1.85; color: var(--text-secondary); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+  .skill-card {
+    background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem 1.35rem;
+  }
+  .skill-card-title { font-size: 12px; font-weight: 600; color: #fff; margin-bottom: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag {
+    font-size: 11px; background: var(--dark-4);
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 4px 10px; color: var(--text-secondary); letter-spacing: 0.03em;
+  }
+
+  /* EXPERIENCE */
+  .exp-item {
+    display: grid; grid-template-columns: 130px 1fr;
+    gap: 1.75rem; padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:first-child { padding-top: 0; }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date { font-size: 12px; color: var(--text-muted); padding-top: 2px; }
+  .exp-company { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 5px; }
+  .exp-role { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+  .exp-bullets { padding-left: 17px; }
+  .exp-bullets li { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 5px; }
+
+  /* PORTFOLIO */
+  .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .port-card {
+    background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 11px; overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+  .port-card:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-2px); }
+  .port-img {
+    width: 100%; height: 155px;
+    background: var(--dark-4); border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; color: var(--text-muted); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .port-img svg { opacity: 0.2; }
+  .port-body { padding: 1.1rem 1.2rem 1.35rem; }
+  .port-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 7px; }
+  .port-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 7px; line-height: 1.4; }
+  .port-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.7; }
+  .port-result {
+    margin-top: 12px; font-size: 10px; color: var(--gold);
+    background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 3px; padding: 5px 10px; display: inline-block; letter-spacing: 0.04em;
+  }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .edu-card {
+    background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.4rem 1.5rem;
+  }
+  .edu-year { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+  .edu-deg { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+  .edu-school { font-size: 13px; color: var(--text-muted); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.25rem 2.5rem;
+    text-align: center;
+    background: var(--dark-2);
+  }
+  footer p { font-size: 12px; color: var(--text-muted); }
+  footer p + p { margin-top: 6px; color: #444; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Swathi Krishna P<span>.</span></a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#education">Education</a>
+    <button class="contact-btn" onclick="document.getElementById('contactModal').classList.add('open')">Get in Touch</button>
+  </div>
+</nav>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('contactModal').classList.remove('open')">&#x2715;</button>
+    <h3>Contact Details</h3>
+    <div class="modal-row">
+      <div class="modal-icon">📞</div>
+      <div>
+        <div class="modal-label">Phone</div>
+        <div class="modal-value">+91 73065 95547</div>
+      </div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-icon">✉️</div>
+      <div>
+        <div class="modal-label">Email</div>
+        <div class="modal-value">skpswat@gmail.com</div>
+      </div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-icon">📍</div>
+      <div>
+        <div class="modal-label">Location</div>
+        <div class="modal-value">Kozhikode, Kerala</div>
+      </div>
+    </div>
+    <a class="whatsapp-btn" href="https://wa.me/917306595547" target="_blank" rel="noopener noreferrer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Message on WhatsApp
+    </a>
+  </div>
+</div>
+
+<div class="hero">
+  <div>
+    <div class="hero-tag">Content Marketer &amp; Strategist</div>
+    <h1>Swathi<br>Krishna <span>P</span></h1>
+    <p class="hero-desc">6+ years turning content into growth. I build strategies that rank, audiences that stay, and pipelines that convert — from blog posts to full-scale brand identities.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">200%+</div>
+        <div class="stat-label">Organic traffic growth</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100k+</div>
+        <div class="stat-label">Social followers grown</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-photo">
+    <img src="photo_6267074763905765483_y.jpg" alt="Swathi Krishna P" class="hero-image">
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I am</div>
+  <div class="section-title">About me</div>
+  <div class="about-grid">
+    <p class="about-text">I'm a content marketer with a background spanning writing, digital strategy, SEO, email marketing, and multimedia production. I've built content systems from scratch, led teams, and grown brand audiences well into six figures. What I do is not just write well — I build repeatable content engines that compound over time.</p>
+    <p class="about-text">I'm equally comfortable diving into keyword research on Ahrefs, building automation flows in n8n, producing a video course with clean audio, or sitting down to craft a newsletter that people actually read. I bring both creative instinct and analytical thinking to every brief.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I bring</div>
+  <div class="section-title">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-title">Content &amp; Writing</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SEO copywriting</span>
+        <span class="skill-tag">Blog articles</span>
+        <span class="skill-tag">Technical writing</span>
+        <span class="skill-tag">Landing pages</span>
+        <span class="skill-tag">Ad copy</span>
+        <span class="skill-tag">Newsletters</span>
+        <span class="skill-tag">Scripts</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Growth &amp; Strategy</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Content strategy</span>
+        <span class="skill-tag">SEO / SERP</span>
+        <span class="skill-tag">Email marketing</span>
+        <span class="skill-tag">Social media</span>
+        <span class="skill-tag">YouTube monetization</span>
+        <span class="skill-tag">Audience growth</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Tools &amp; Tech</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Ahrefs</span>
+        <span class="skill-tag">Google Analytics</span>
+        <span class="skill-tag">WordPress</span>
+        <span class="skill-tag">FL Studio</span>
+        <span class="skill-tag">n8n automation</span>
+        <span class="skill-tag">HTML / CSS</span>
+        <span class="skill-tag">Video &amp; audio editing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Track record</div>
+  <div class="section-title">Experience</div>
+
+  <div class="exp-item">
+    <div class="exp-date">2022 — Present</div>
+    <div>
+      <div class="exp-company">Sapling Creations Pvt Ltd, Kozhikode</div>
+      <div class="exp-role">Content Writer &amp; Content Strategist</div>
+      <ul class="exp-bullets">
+        <li>Led end-to-end content strategy across web, social, and email, growing organic traffic by over 200% with a primarily US-based audience.</li>
+        <li>Grew brand social media following to 100k+ across Instagram and Facebook through consistent, audience-driven publishing.</li>
+        <li>Planned and produced a year-long educational newsletter for paid members, a live webinar attended by hundreds, and a full-length Udemy course with professional video and audio production.</li>
+        <li>Shaped brand voice and visual tone across all channels, creating consistency that strengthened recognition and trust.</li>
+        <li>Built an n8n automation workflow that significantly cut production time and scaled content output without adding headcount.</li>
+        <li>Generated revenue through organic search, email marketing, and YouTube monetization.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-date">2020 — 2022</div>
+    <div>
+      <div class="exp-company">Mozilor Pvt. Ltd.</div>
+      <div class="exp-role">Technical Content Writer &amp; Digital Marketer</div>
+      <ul class="exp-bullets">
+        <li>Wrote technical and non-technical articles for the BootstrapDash blog, covering frontend technologies, UI frameworks, and dashboard templates for a developer audience.</li>
+        <li>Contributed to SEO, email campaigns, social media marketing, and on-page optimisation to support organic growth and user engagement across digital channels.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-date">2019 — 2020</div>
+    <div>
+      <div class="exp-company">Vividreal Solutions Pvt. Ltd.</div>
+      <div class="exp-role">Content Writer</div>
+      <ul class="exp-bullets">
+        <li>Started career writing content alongside experienced digital marketing professionals, building strong foundations in content creation and brand communication.</li>
+        <li>Managed website content for UNEP sites, wrote social media ad copy, and handled client blog management.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-label">Proof of work</div>
+  <div class="section-title">Portfolio</div>
+  <div class="portfolio-grid">
+
+<div class="port-card">
+  <div class="port-img">
+    <img src="portfolio 1.png" alt="SlideBazaar Blog Screenshot" style="width: 100%; height: 100%; object-fit: cover; display: block;" onclick="openLightbox(this.src, this.alt)">
+  </div>
+  <div class="port-body">
+    <div class="port-tag">Blog / SEO</div>
+    <div class="port-title">SlideBazaar Blog</div>
+    <div class="port-desc">Long-form articles on presentation design and productivity, optimised for competitive US search queries. These posts were the engine behind most of the site's organic traffic growth.</div>
+    <div class="port-result">200%+ organic traffic growth</div>
+  </div>
+</div>
+
+    <div class="port-card">
+      <div class="port-img">
+<img src="youtube.png" alt="SlideBazaar YouTube Channel" style="width: 100%; height: 100%; object-fit: cover; display: block;" onclick="openLightbox(this.src, this.alt)">      </div>
+      <div class="port-body">
+        <div class="port-tag">Video / YouTube</div>
+        <div class="port-title">SlideBazaar YouTube Channel</div>
+        <div class="port-desc">Scripted, produced, and marketed video content that reached YouTube monetization status. The channel became a consistent revenue stream alongside the blog and email list.</div>
+        <div class="port-result">Monetized channel</div>
+      </div>
+    </div>
+
+    <div class="port-card">
+  <div class="port-img">
+    <img src="udemy.png" alt="Udemy Course" style="width: 100%; height: 100%; object-fit: cover; display: block;" onclick="openLightbox(this.src, this.alt)">
+  </div>
+      <div class="port-body">
+        <div class="port-tag">Course / Education</div>
+        <div class="port-title">Udemy Course</div>
+        <div class="port-desc">Designed and produced a full-length course from the ground up — curriculum structure, high-quality video and audio recording using FL Studio, and a promotional marketing strategy to drive enrollments.</div>
+        <div class="port-result">Live course with enrolled students</div>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-img">
+    <img src="insta 3.png" alt="SlideBazaar Instagram" style="width: 100%; height: 100%; object-fit: cover; display: block;" onclick="openLightbox(this.src, this.alt)">
+        
+      </div>
+      <div class="port-body">
+        <div class="port-tag">Social Media</div>
+        <div class="port-title">SlideBazaar Instagram</div>
+        <div class="port-desc">Owned the social content strategy on Instagram and Facebook, growing the combined following from the ground up to over 100k engaged followers through consistent, on-brand content.</div>
+        <div class="port-result">100k+ followers grown</div>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-img">
+    <img src="n8n.png" alt="n8n Workflow for Content" style="width: 100%; height: 100%; object-fit: cover; display: block;" onclick="openLightbox(this.src, this.alt)">
+        
+      </div>
+      <div class="port-body">
+        <div class="port-tag">Content Automation</div>
+        <div class="port-title">n8n Workflow for Content</div>
+        <div class="port-desc">Educational script written for one of India's largest ed-tech companies, demonstrating the ability to adapt voice, tone, and format for large-scale digital learning content with a young audience.</div>
+        <div class="port-result">Enterprise client deliverable</div>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-img">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>Replace with sample</span>
+      </div>
+      <div class="port-body">
+        <div class="port-tag">Creative writing</div>
+        <div class="port-title">Creative Portfolio</div>
+        <div class="port-desc">A collection of creative writing including a poem and a short story written for Byju's, alongside other creative work that demonstrates range across both commercial and literary formats.</div>
+        <div class="port-result">Commercial + literary range</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Background</div>
+  <div class="section-title">Education</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-year">2013 — 2016</div>
+      <div class="edu-deg">BSc Chemistry</div>
+      <div class="edu-school">SN College, Kollam</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2017 — 2018</div>
+      <div class="edu-deg">Diploma in Sound Engineering &amp; Music Recording</div>
+      <div class="edu-school">SEA, Trivandrum</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Swathi Krishna P &nbsp;&middot;&nbsp; Content Marketer &amp; Strategist &nbsp;&middot;&nbsp; Kozhikode, Kerala</p>
+  <p>skpswat@gmail.com &nbsp;&middot;&nbsp; +91 73065 95547</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="if(event.target===this||event.target.classList.contains('lightbox-inner'))closeLightbox()">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+</div>
+
+<script>
+  function openLightbox(src, alt) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
